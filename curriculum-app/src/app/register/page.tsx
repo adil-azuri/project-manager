@@ -1,0 +1,38 @@
+import Link from "next/link";
+import { RegisterForm } from "@/components/register-form";
+
+export default function Register() {
+  return (
+    <div className="min-h-screen flex bg-black text-white">
+      {/* Left side form */}
+      <div className="flex flex-col justify-center items-center w-1/2 p-8 relative">
+        <Link href="/login" className="absolute top-4 right-4 text-sm hover:underline">
+          Login
+        </Link>
+        <div className="w-full max-w-md">
+          <RegisterForm />
+        </div>
+      </div>
+
+      {/* Right side branding */}
+      <div className="flex flex-col justify-between w-1/2 p-8 border-l border-gray-700">
+        <div className="flex items-center space-x-2">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6 text-white"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+          </svg>
+          <span className="font-semibold text-lg">Curriculum App</span>
+        </div>
+        <blockquote className="text-sm italic text-gray-400">
+          Developed by Adil •DumbWays Indonesia • #1 Coding Bootcamp
+        </blockquote>
+      </div>
+    </div>
+  );
+}

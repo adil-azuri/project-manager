@@ -1,0 +1,57 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  USER
+}
+
+model users {
+  id            Int        @id @default(autoincrement())
+  email         String     @unique
+  name          String
+  password      String
+  role          Role       @default(USER)
+  ownedProjects projects[] @relation("OwnedProjects")
+  assignedTasks tasks[]    @relation("AssignedTasks")
+}
+
+model projects {
+  id          Int        @id @default(autoincrement())
+  title       String
+  description String?
+  status      String     @default("Open")
+  ownerId     Int
+  owner       users      @relation("OwnedProjects", fields: [ownerId], references: [id], onDelete: Cascade)
+  tasks       tasks[]
+  categories  category[] @relation("ProjectCategories")
+}
+
+model tasks {
+  id           Int      @id @default(autoincrement())
+  title        String
+  status       String   @default("Open")
+  projectId    Int
+  project      projects @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  assignedToId Int?
+  assignedTo   users?   @relation("AssignedTasks", fields: [assignedToId], references: [id], onDelete: SetNull)
+}
+
+model category {
+  id       Int        @id @default(autoincrement())
+  name     String     @unique
+  projects projects[] @relation("ProjectCategories")
+}
