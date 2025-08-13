@@ -31,7 +31,7 @@ export function LoginForm() {
       setPassword("")
 
       setTimeout(() => {
-        window.location.href = "/"
+        window.location.href = "/dashboard"
       }, 2000)
 
     } catch (error: any) {

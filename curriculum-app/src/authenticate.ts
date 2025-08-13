@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
-export function middleware(request: NextRequest) {
+export function authenticate(request: NextRequest) {
     const protectedRoutes = ['/dashboard', '/profile',]
     const pathname = request.nextUrl.pathname
 
@@ -10,7 +10,7 @@ export function middleware(request: NextRequest) {
     )
 
     if (isProtectedRoute) {
-        const token = request.cookies.get('auth-token')
+        const token = request.cookies.get('token')
 
         if (!token) {
             return NextResponse.redirect(new URL('/login', request.url))
