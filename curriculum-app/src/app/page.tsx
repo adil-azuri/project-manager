@@ -1,7 +1,38 @@
-import Image from "next/image";
+import Link from "next/link";
+import { LoginForm } from "@/components/login-form";
 
-export default function Home() {
+export default function Login() {
   return (
-    <h1 className="">Home</h1>
+    <div className="min-h-screen flex bg-black text-white">
+      {/* Left side branding */}
+      <div className="flex flex-col justify-between w-1/2 p-8 border-r border-gray-700">
+        <div className="flex items-center space-x-2">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6 text-white"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+          </svg>
+          <span className="font-semibold text-lg">Curriculum App</span>
+        </div>
+        <blockquote className="text-sm italic text-gray-400">
+          Developed by Adil •DumbWays Indonesia • #1 Coding Bootcamp
+        </blockquote>
+      </div>
+
+      {/* Right side form */}
+      <div className="flex flex-col justify-center items-center w-1/2 p-8 relative">
+        <Link href="/register" className="absolute top-4 right-4 text-sm hover:underline">
+          Register
+        </Link>
+        <div className="w-full max-w-md">
+          <LoginForm />
+        </div>
+      </div>
+    </div>
   );
 }

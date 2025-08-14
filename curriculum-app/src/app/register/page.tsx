@@ -4,9 +4,9 @@ import { RegisterForm } from "@/components/register-form";
 export default function Register() {
   return (
     <div className="min-h-screen flex bg-black text-white">
-      {/* Left side form */}
+
       <div className="flex flex-col justify-center items-center w-1/2 p-8 relative">
-        <Link href="/login" className="absolute top-4 right-4 text-sm hover:underline">
+        <Link href="/" className="absolute top-4 right-4 text-sm hover:underline">
           Login
         </Link>
         <div className="w-full max-w-md">
@@ -14,7 +14,6 @@ export default function Register() {
         </div>
       </div>
 
-      {/* Right side branding */}
       <div className="flex flex-col justify-between w-1/2 p-8 border-l border-gray-700">
         <div className="flex items-center space-x-2">
           <svg

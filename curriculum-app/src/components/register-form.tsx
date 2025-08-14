@@ -33,7 +33,7 @@ export function RegisterForm() {
       setPassword("")
 
       setTimeout(() => {
-        window.location.href = "/login"
+        window.location.href = "/"
       }, 2000)
     } catch (error: any) {
       console.error("Registration error:", error)

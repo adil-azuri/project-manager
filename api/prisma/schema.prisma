@@ -20,13 +20,13 @@ enum Role {
 }
 
 model users {
-  id            Int        @id @default(autoincrement())
-  email         String     @unique
-  name          String
-  password      String
-  role          Role       @default(USER)
-  ownedProjects projects[] @relation("OwnedProjects")
-  assignedTasks tasks[]    @relation("AssignedTasks")
+  id               Int        @id @default(autoincrement())
+  email            String     @unique
+  name             String
+  password         String
+  role             Role       @default(USER)
+  assignedProjects projects[] @relation("AssignedProjects")
+  assignedTasks    tasks[]    @relation("AssignedTasks")
 }
 
 model projects {
@@ -34,8 +34,9 @@ model projects {
   title       String
   description String?
   status      String     @default("Open")
-  ownerId     Int
-  owner       users      @relation("OwnedProjects", fields: [ownerId], references: [id], onDelete: Cascade)
+  imageUrl    String?
+  assignToId  Int?
+  assignTo    users?     @relation("AssignedProjects", fields: [assignToId], references: [id], onDelete: SetNull)
   tasks       tasks[]
   categories  category[] @relation("ProjectCategories")
 }

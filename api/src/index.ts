@@ -5,6 +5,7 @@ import multer from "multer";
 import cookieParser from "cookie-parser";
 
 import auth_route from "./routes/auth";
+import project_route from "./routes/project-route";
 const app = express();
 
 const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 5 * 1024 * 1024 } }); // 5MB
@@ -17,7 +18,7 @@ app.use(cors({
 }));
 
 
-app.use("/api", auth_route);
+app.use("/api", auth_route, project_route);
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => console.log(`API running on http://localhost:${PORT}`));

@@ -126,4 +126,22 @@ router.post('/login', async (req: Request, res: Response) => {
     }
 });
 
+// Logout User
+router.post('/logout', async (req: Request, res: Response) => {
+    try {
+        res.clearCookie('token', {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'strict',
+        });
+
+        res.json({
+            message: 'Logout successful'
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Logout failed' });
+    }
+});
+
 export default router;
