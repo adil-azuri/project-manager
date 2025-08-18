@@ -1,10 +1,9 @@
 import Link from "next/link";
-import { LoginForm } from "@/components/login-form";
+import { LoginForm } from "@/components/auth/login-form";
 
 export default function Login() {
   return (
     <div className="min-h-screen flex bg-black text-white">
-      {/* Left side branding */}
       <div className="flex flex-col justify-between w-1/2 p-8 border-r border-gray-700">
         <div className="flex items-center space-x-2">
           <svg
