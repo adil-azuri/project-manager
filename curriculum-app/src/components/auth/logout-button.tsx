@@ -40,7 +40,7 @@ export function Logout() {
 
     return (
         <div className="flex items-center">
-            <button onClick={handleLogout} className="text-md font-bold bg-red-500 px-3 py-1 text-white rounded-    xl">
+            <button onClick={handleLogout} className="text-md font-bold bg-red-500 px-3 py-1 text-white rounded-xl">
                 Logout
             </button>
         </div>

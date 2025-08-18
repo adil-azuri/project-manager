@@ -1,8 +1,9 @@
 'use client';
-
 import React, { useState, useEffect } from 'react';
 import { api } from '@/lib/axios';
-import { Navbar } from '@/components/navbar';
+import { Navbar } from '@/components/navbar/navbar';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 interface Project {
   id: number;
@@ -46,6 +47,7 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [userRole, setUserRole] = useState<string>('');
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   const fetchProjects = async () => {
     try {
@@ -70,7 +72,7 @@ const Dashboard = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen p-8 font-sans bg-background">
+      <div className="min-h-screen bg-background">
         <Navbar />
         <div className="max-w-screen-xl mx-auto px-4 py-8">
           <div className="flex justify-center items-center h-64">
@@ -84,7 +86,7 @@ const Dashboard = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen p-8 font-sans bg-background">
+      <div className="min-h-screen bg-background">
         <Navbar />
         <div className="max-w-screen-xl mx-auto px-4 py-8">
           <div className="bg-destructive/10 border border-destructive text-destructive px-4 py-3 rounded">
@@ -104,9 +106,10 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
+
       <div className="max-w-screen-xl mx-auto px-4 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground">Halo, {userRole === 'ADMIN' ? 'Admin' : 'Pengguna'}! 👋</h1>
+          <h1 className="text-3xl font-bold text-foreground">Halo, {userRole === 'ADMIN' ? 'Admin' : 'User'}! 👋</h1>
           <p className="text-muted-foreground mt-2">Selamat datang kembali di dashboard Anda. Berikut ringkasan proyek Anda.</p>
         </div>
 
@@ -115,9 +118,9 @@ const Dashboard = () => {
             {projects.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {projects.map(project => (
-                  <div key={project.id} className="p-4 rounded-lg border bg-secondary/50">
+                  <div key={project.id} className="p-4 rounded-lg border bg-secondary/50 hover:shadow-md transition-shadow flex flex-col h-full">
                     <div className="flex justify-between items-start mb-3">
-                      <div>
+                      <div className="flex-1">
                         <p className="font-medium text-foreground">{project.title}</p>
                         <p className="text-sm text-muted-foreground mt-1">{project.description}</p>
                       </div>
@@ -125,20 +128,34 @@ const Dashboard = () => {
                         <img
                           src={project.imageUrl}
                           alt={project.title}
-                          className="w-16 h-16 rounded-lg object-cover"
+                          className="w-16 h-16 rounded-lg object-cover ml-2 flex-shrink-0"
                         />
                       )}
                     </div>
-                    <div className="space-y-2">
-                      <span className={`inline-block px-2 py-1 text-xs rounded-full ${project.status === 'Open' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100' :
-                        project.status === 'In Progress' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100' :
-                          'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-100'
-                        }`}>
-                        {project.status}
-                      </span>
-                      <p className="text-sm text-muted-foreground">
-                        Ditugaskan kepada: {project.assignTo.name}
-                      </p>
+
+                    <div className="flex flex-col flex-grow">
+                      <div className="mt-auto">
+                        <div className="mb-3">
+                          <span className={`inline-block px-2 py-1 text-xs rounded-full
+                          ${project.status === 'Open' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100'
+                              : project.status === 'In Progress' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100'
+                                : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-100'
+                            }`}>
+                            {project.status}
+                          </span>
+                        </div>
+
+                        <p className="text-sm text-muted-foreground mb-4">
+                          Ditugaskan kepada: {project.assignTo.name}
+                        </p>
+
+
+                        <Link href={`/projects/${project.id}`}>
+                          <Button variant="default" size="sm" className="w-full">
+                            Lihat Detail Project
+                          </Button>
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -150,7 +167,7 @@ const Dashboard = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Dashboard;
+export default Dashboard

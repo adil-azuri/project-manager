@@ -26,7 +26,6 @@ model users {
   password         String
   role             Role       @default(USER)
   assignedProjects projects[] @relation("AssignedProjects")
-  assignedTasks    tasks[]    @relation("AssignedTasks")
 }
 
 model projects {
@@ -42,17 +41,21 @@ model projects {
 }
 
 model tasks {
-  id           Int      @id @default(autoincrement())
-  title        String
-  status       String   @default("Open")
-  projectId    Int
-  project      projects @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  assignedToId Int?
-  assignedTo   users?   @relation("AssignedTasks", fields: [assignedToId], references: [id], onDelete: SetNull)
+  id        Int      @id @default(autoincrement())
+  title     String
+  status    String   @default("Open")
+  projectId Int
+  project   projects @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+enum CategoryType {
+  BAHASA
+  MIPA
+  IPS
 }
 
 model category {
-  id       Int        @id @default(autoincrement())
-  name     String     @unique
-  projects projects[] @relation("ProjectCategories")
+  id       Int          @id @default(autoincrement())
+  name     CategoryType @unique
+  projects projects[]   @relation("ProjectCategories")
 }
