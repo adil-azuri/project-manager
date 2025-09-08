@@ -1,36 +1,102 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# UMKM Product List MVP
+
+A fullstack web application for managing UMKM (Small Medium Enterprises) products with image upload capabilities.
+
+## Project Structure
+```
+curriculum-app/
+├── api/                  # Backend API
+│   ├── src/             # Source files
+│   ├── package.json      # API dependencies
+│   └── ...
+└── curriculum-app/      # Frontend Application
+    ├── src/             # Source files
+    ├── package.json      # Frontend dependencies
+    └── ...
+```
+
+## Features
+- Product listing with images
+- Add new products with image upload
+- Delete products
+- Responsive design with Tailwind CSS
+- Image storage using Supabase
+
+## Tech Stack
+### Backend
+- Express.js 5.1.0
+- Supabase (Database & Storage)
+- Multer 2.0.2 (File upload handling)
+- CORS
+- Environment variables support
+
+### Frontend
+- Next.js 15.4.6
+- React 19.1.0
+- Tailwind CSS
+- Geist Font
+- Environment variables support
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+- Node.js
+- NPM or Yarn
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### API Setup
+1. Navigate to the API directory:
+   ```bash
+   cd api
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Create a `.env` file with:
+   ```
+   PORT=4000
+   SUPABASE_URL=your_supabase_url
+   SUPABASE_SECRET_KEY=your_supabase_key
+   ```
+4. Start the API:
+   ```bash
+   npm run dev
+   ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Web Setup
+1. Navigate to the web directory:
+   ```bash
+   cd curriculum-app
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Create a `.env.local` file:
+   ```
+   NEXT_PUBLIC_API_URL=http://localhost:4000
+   ```
+4. Start the development server:
+   ```bash
+   npm run dev
+   ```
+5. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## API Endpoints
+- `GET /api/products` - Get all products
+- `POST /api/products` - Create new product
+- `PUT /api/products/:id` - Update product
+- `DELETE /api/products/:id` - Delete product
+- `POST /api/upload` - Upload product image
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Environment Variables
+- `PORT` - API port (default: 4000)
+- `SUPABASE_URL` - Your Supabase project URL
+- `SUPABASE_SECRET_KEY` - Supabase service role key
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Contributing
+1. Fork the repository
+2. Create your feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a new Pull Request

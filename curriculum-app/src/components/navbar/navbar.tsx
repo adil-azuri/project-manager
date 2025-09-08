@@ -1,8 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-import logo from "@/assets/C_logo.svg";
 import { Logout } from "@/components/auth/logout-button";
-import { ThemeToggle } from "@/components/navbar/theme-toggle";
 import { api } from "@/lib/axios";
 
 export function Navbar() {
@@ -53,7 +51,6 @@ export function Navbar() {
                             </a>
                         )}
                         <Logout />
-                        <ThemeToggle />
                     </div>
                     <button
                         data-collapse-toggle="navbar-cta"

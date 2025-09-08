@@ -1,5 +1,9 @@
+"use client"
+
 import Link from "next/link";
 import { RegisterForm } from "@/components/auth/register-form";
+import Lottie from "lottie-react";
+import TaskAnimation from '@/assets/Man with task list.json';
 
 export default function Register() {
   return (
@@ -28,6 +32,9 @@ export default function Register() {
           </svg>
           <span className="font-semibold text-lg">Curriculum App</span>
         </div>
+
+        <Lottie animationData={TaskAnimation} loop={true} className="h-120" />
+
         <blockquote className="text-sm italic text-gray-400">
           Developed by Adil •DumbWays Indonesia • #1 Coding Bootcamp
         </blockquote>

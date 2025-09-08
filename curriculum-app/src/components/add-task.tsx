@@ -88,7 +88,7 @@ export default function InputTask({ onTaskAdded, projectId }: InputTaskProps) {
                     onClick={() => setOpen(true)}
                     className="flex items-center gap-1 px-3 py-2 rounded bg-black text-white"
                 >
-                    <Plus size={16} /> Tambah
+                    <Plus size={16} /> Tambah Task
                 </button>
             ) : (
                 <>
