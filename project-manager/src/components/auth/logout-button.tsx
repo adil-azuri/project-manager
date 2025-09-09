@@ -20,12 +20,13 @@ export function Logout() {
             if (result.isConfirmed) {
                 try {
                     await api.post('/api/logout');
+                    localStorage.removeItem('userData');
                     Swal.fire(
                         'Logged out!',
                         'You have been logged out.',
                         'success'
                     );
-                    router.push('/login');
+                    router.push('/');
                 } catch (error) {
                     console.error('Logout error:', error);
                     Swal.fire(
@@ -40,7 +41,7 @@ export function Logout() {
 
     return (
         <div className="flex items-center">
-            <button onClick={handleLogout} className="text-md font-bold bg-red-500 px-3 py-1 text-white rounded-xl">
+            <button onClick={handleLogout} className="text-md font-bold bg-red-500 px-3 py-1 text-white rounded">
                 Logout
             </button>
         </div>

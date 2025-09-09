@@ -27,6 +27,10 @@ export function LoginForm() {
 
       toast.success("Login successful! Redirecting to dashboard...")
 
+      if (response.data && response.data.data) {
+        localStorage.setItem("userData", JSON.stringify(response.data.data))
+      }
+
       setEmail("")
       setPassword("")
 

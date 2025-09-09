@@ -38,7 +38,7 @@ export function Navbar() {
                     >
                         <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
                     </svg>
-                    <span className="text-primary font-semibold text-lg">Curriculum Manager</span>
+                    <span className="text-primary font-semibold text-lg">Project     Manager</span>
                 </a>
                 <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse items-center">
                     <div className="flex items-center space-x-4">

@@ -30,7 +30,7 @@ export default function Register() {
           >
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
           </svg>
-          <span className="font-semibold text-lg">Curriculum App</span>
+          <span className="font-semibold text-lg">Project Manager</span>
         </div>
 
         <Lottie animationData={TaskAnimation} loop={true} className="h-120" />

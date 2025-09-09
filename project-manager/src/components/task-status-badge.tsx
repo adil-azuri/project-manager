@@ -8,10 +8,11 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, Loader2 } from "lucide-react";
+import { ChevronDown } from "lucide-react";
+import { api } from "@/lib/axios";
 
-interface ProjectStatusBadgeProps {
-    projectId: number;
+interface TaskStatusBadgeProps {
+    taskId: number;
     currentStatus: string;
     onStatusChange?: (newStatus: string) => void;
     size?: "sm" | "md" | "lg";
@@ -27,7 +28,7 @@ const statusConfig = {
     },
     "In Progress": {
         label: "In Progress",
-        color: "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100",
+        color: "bg-blue-100 text-blue-800 dark:bg-blue-700 dark:text-blue-100",
         hoverColor: "hover:bg-blue-200 dark:hover:bg-blue-800",
         dotColor: "bg-blue-500",
     },
@@ -39,27 +40,32 @@ const statusConfig = {
     },
 };
 
-export function ProjectStatusBadge({
-    projectId,
+export function TaskStatusBadge({
+    taskId,
     currentStatus,
     onStatusChange,
     size = "md",
     readonly = false,
-}: ProjectStatusBadgeProps) {
+}: TaskStatusBadgeProps) {
+    const [status, setStatus] = useState(currentStatus);
     const [isLoading, setIsLoading] = useState(false);
 
     const handleStatusChange = async (newStatus: string) => {
         if (readonly) return;
 
-        if (onStatusChange && typeof onStatusChange === "function") {
-            setIsLoading(true);
-            try {
-                await onStatusChange(newStatus);
-            } catch (error) {
-                console.error("Failed to update project status:", error);
-            } finally {
-                setIsLoading(false);
-            }
+        setIsLoading(true);
+        try {
+            await api.patch(`/api/task/status/`, {
+                taskId: taskId,
+                status: newStatus,
+            });
+
+            setStatus(newStatus);
+            onStatusChange?.(newStatus);
+        } catch (error) {
+            console.error("Failed to update task status:", error);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -79,8 +85,8 @@ export function ProjectStatusBadge({
 
     if (readonly) {
         return (
-            <Badge className={`${getStatusColor(currentStatus)} ${sizeClasses[size]} cursor-default`}>
-                {getStatusLabel(currentStatus)}
+            <Badge className={`${getStatusColor(status)} ${sizeClasses[size]} cursor-default`}>
+                {getStatusLabel(status)}
             </Badge>
         );
     }
@@ -89,21 +95,16 @@ export function ProjectStatusBadge({
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <Button
-                    type="button"
                     variant="ghost"
                     className={`h-auto p-0 hover:bg-transparent transition-all duration-200 ${isLoading ? "opacity-50 cursor-not-allowed" : ""
                         }`}
                     disabled={isLoading}
                 >
                     <Badge
-                        className={`${getStatusColor(currentStatus)} ${sizeClasses[size]} cursor-pointer transition-all duration-200 flex items-center gap-1 border-2 border-transparent hover:border-gray-300`}
+                        className={`${getStatusColor(status)} ${sizeClasses[size]} cursor-pointer transition-all duration-200 flex items-center gap-1 border-2 border-transparent hover:border-gray-300`}
                     >
-                        {getStatusLabel(currentStatus)}
-                        {isLoading ? (
-                            <Loader2 className="h-3 w-3 animate-spin" />
-                        ) : (
-                            <ChevronDown className="h-3 w-3" />
-                        )}
+                        {getStatusLabel(status)}
+                        <ChevronDown className="h-3 w-3" />
                     </Badge>
                 </Button>
             </DropdownMenuTrigger>
@@ -112,7 +113,7 @@ export function ProjectStatusBadge({
                     <DropdownMenuItem
                         key={key}
                         onClick={() => handleStatusChange(key)}
-                        className={`cursor-pointer ${currentStatus === key ? "bg-accent" : ""
+                        className={`cursor-pointer ${status === key ? "bg-accent" : ""
                             }`}
                     >
                         <div className="flex items-center gap-2">

@@ -46,8 +46,7 @@ const Dashboard = () => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [userRole, setUserRole] = useState<string>('');
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [userName, setUserName] = useState<string>('');
 
   const fetchProjects = async () => {
     try {
@@ -56,7 +55,13 @@ const Dashboard = () => {
 
       if (response.data.code === 200) {
         setProjects(response.data.data.projects);
-        setUserRole(response.data.data.role);
+        const storedUserData = localStorage.getItem('userData');
+        if (storedUserData) {
+          const userData = JSON.parse(storedUserData);
+          setUserName(userData.name);
+        } else {
+          setUserName(response.data.data.name);
+        }
       }
     } catch (err: any) {
       console.error('Error fetching projects:', err);
@@ -67,6 +72,11 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
+    const storedUserData = localStorage.getItem('userData');
+    if (storedUserData) {
+      const userData = JSON.parse(storedUserData);
+      setUserName(userData.name);
+    }
     fetchProjects();
   }, []);
 
@@ -109,7 +119,7 @@ const Dashboard = () => {
 
       <div className="max-w-screen-xl mx-auto px-4 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground">Halo, {userRole === 'ADMIN' ? 'Admin' : 'User'}! 👋</h1>
+          <h1 className="text-3xl font-bold text-foreground">Halo, {userName}! 👋</h1>
           <p className="text-muted-foreground mt-2">Selamat datang kembali di dashboard Anda. Berikut ringkasan proyek Anda.</p>
         </div>
 
@@ -137,7 +147,7 @@ const Dashboard = () => {
                       <div className="mt-auto">
                         <div className="mb-3">
                           <span className={`inline-block px-2 py-1 text-xs rounded-full
-                          ${project.status === 'Open' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100'
+                          ${project.status === 'Open' ? 'bg-green-100 text-green-800 dark:bg-green-700 dark:text-green-100'
                               : project.status === 'In Progress' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100'
                                 : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-100'
                             }`}>

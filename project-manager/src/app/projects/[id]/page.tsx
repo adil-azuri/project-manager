@@ -184,7 +184,7 @@ export default function ProjectDetailPage() {
                                     <h3 className=" font-semibold mb-2 text-muted-foreground">Ditugaskan kepada</h3>
                                     <div className="flex items-center space-x-3">
                                         <div className='flex justify-between  w-full '>
-                                            <div>
+                                            <div className='flex gap-4'>
                                                 <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-primary-foreground font-semibold">
                                                     {project?.assignTo.name.charAt(0).toUpperCase() || '?'}
                                                 </div>
@@ -196,9 +196,9 @@ export default function ProjectDetailPage() {
 
 
                                             {userRole === 'ADMIN' && project && (
-                                                <div className=' flex flex-col space-y-5 mr-10'>
-                                                    <Link href={`/projects/${project.id}/edit`}>
-                                                        <Button className='bg-blue-500 hover:bg-blue-600 w-full'>
+                                                <div className=' flex flex-col justify-end space-y-5 mr-10'>
+                                                    <Link href={`/projects/${project.id}`} className='flex justify-center'>
+                                                        <Button className=' text-md font-bold bg-blue-500 px-3 py-1 text-white rounded hover:bg-blue-600 transition-colors'>
                                                             Edit Project
                                                         </Button>
                                                     </Link>
@@ -226,11 +226,14 @@ export default function ProjectDetailPage() {
                 <hr className="my-6" />
 
                 {project ? (
-                    <TasksSection
-                        projectId={project.id}
-                        tasks={project.tasks || []}
-                        onTasksUpdate={reFetchData}
-                    />
+                    <div>
+                        <TasksSection
+                            projectId={project.id}
+                            tasks={project.tasks || []}
+                            onTasksUpdate={reFetchData}
+                            userRole={userRole}
+                        />
+                    </div>
                 ) : (
                     <div className="flex justify-center items-center h-32">
                         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>

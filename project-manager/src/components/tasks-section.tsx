@@ -11,32 +11,10 @@ interface TasksSectionProps {
     projectId: number;
     tasks: Task[];
     onTasksUpdate: () => void;
+    userRole?: string;
 }
 
-export default function TasksSection({ projectId, tasks, onTasksUpdate }: TasksSectionProps) {
-
-    const statusColors: Record<string, string> = {
-        open: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100',
-        'in progress': 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100',
-        completed: 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-100',
-        closed: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-100',
-    };
-
-    const priorityColors: Record<string, string> = {
-        high: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-100',
-        medium: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-100',
-        low: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100',
-    };
-
-    const getTaskStatusColor = (status: string = '') => {
-        return statusColors[status.toLowerCase()] || 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-100';
-    };
-
-    const getPriorityColor = (priority?: string) => {
-        if (!priority) return 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-100';
-        return priorityColors[priority.toLowerCase()] || 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-100';
-    };
-
+export default function TasksSection({ projectId, tasks, onTasksUpdate, userRole }: TasksSectionProps) {
     const taskCount = Array.isArray(tasks) ? tasks.length : 0;
 
     return (
@@ -47,7 +25,9 @@ export default function TasksSection({ projectId, tasks, onTasksUpdate }: TasksS
                         <CardTitle>Tugas ({taskCount})</CardTitle>
                         <CardDescription>Daftar tugas dalam proyek ini</CardDescription>
                     </div>
-                    <InputTask onTaskAdded={onTasksUpdate} projectId={projectId} />
+                    {userRole === 'ADMIN' && (
+                        <InputTask onTaskAdded={onTasksUpdate} projectId={projectId} />
+                    )}
                 </div>
             </CardHeader>
 
@@ -71,11 +51,7 @@ export default function TasksSection({ projectId, tasks, onTasksUpdate }: TasksS
                                                 onStatusChange={onTasksUpdate}
                                                 size="sm"
                                             />
-                                            {task.priority && (
-                                                <Badge className={getPriorityColor(task.priority)}>
-                                                    {task.priority}
-                                                </Badge>
-                                            )}
+
                                             {task.dueDate && (
                                                 <div className="text-xs text-muted-foreground whitespace-nowrap">
                                                     Due: {new Date(task.dueDate).toLocaleDateString('id-ID')}
@@ -90,9 +66,6 @@ export default function TasksSection({ projectId, tasks, onTasksUpdate }: TasksS
                         <div className="text-center py-8">
                             <p className="text-muted-foreground mb-4">
                                 Belum ada tugas untuk proyek ini
-                            </p>
-                            <p className="text-sm text-muted-foreground">
-                                Tambahkan tugas baru untuk memulai
                             </p>
                         </div>
                     )}

@@ -59,7 +59,7 @@ export function DeleteProjectButton({ projectId, projectName, onDelete }: Delete
         <div className="flex items-center">
             <button
                 onClick={handleDelete}
-                className="text-md font-bold bg-red-500 px-3 py-1 text-white rounded-xl hover:bg-red-600 transition-colors"
+                className="text-md font-bold bg-red-500 px-3 py-1 text-white rounded hover:bg-red-600 transition-colors"
             >
                 Delete Project
             </button>
