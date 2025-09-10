@@ -119,12 +119,12 @@ const Dashboard = () => {
 
       <div className="max-w-screen-xl mx-auto px-4 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground">Halo, {userName}! 👋</h1>
-          <p className="text-muted-foreground mt-2">Selamat datang kembali di dashboard Anda. Berikut ringkasan proyek Anda.</p>
+          <h1 className="text-3xl font-bold text-foreground">Hello, {userName}! 👋</h1>
+          <p className="text-muted-foreground mt-2">Welcome back to your dashboard. Here's a summary of your projects.</p>
         </div>
 
         <div className="grid grid-cols-1 gap-6">
-          <DashboardSection title={`Proyek Anda (${projects.length})`} >
+          <DashboardSection title={`Your Projects (${projects.length})`} >
             {projects.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {projects.map(project => (
@@ -156,13 +156,13 @@ const Dashboard = () => {
                         </div>
 
                         <p className="text-sm text-muted-foreground mb-4">
-                          Ditugaskan kepada: {project.assignTo.name}
+                          Assigned to: {project.assignTo.name}
                         </p>
 
 
                         <Link href={`/projects/${project.id}`}>
                           <Button variant="default" size="sm" className="w-full">
-                            Lihat Detail Project
+                            View Project Details
                           </Button>
                         </Link>
                       </div>
@@ -171,7 +171,7 @@ const Dashboard = () => {
                 ))}
               </div>
             ) : (
-              <p className="text-muted-foreground">Anda belum memiliki proyek.</p>
+              <p className="text-muted-foreground">You don't have any projects yet.</p>
             )}
           </DashboardSection>
         </div>

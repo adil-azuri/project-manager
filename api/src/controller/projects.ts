@@ -358,7 +358,7 @@ export async function delete_project(req: Request, res: Response) {
             return res.status(403).json({
                 code: 403,
                 status: "error",
-                message: " only admin can delete projects"
+                message: "Only admins can delete projects"
             });
         }
 
@@ -462,5 +462,3 @@ export async function update_project_status(req: Request, res: Response) {
         });
     }
 }
-
-

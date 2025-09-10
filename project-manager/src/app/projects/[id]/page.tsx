@@ -128,7 +128,7 @@ export default function ProjectDetailPage() {
                     </div>
                     <div className="mt-4">
                         <Link href="/dashboard">
-                            <Button variant="outline">← Kembali ke Dashboard</Button>
+                            <Button variant="outline">← Back to Dashboard</Button>
                         </Link>
                     </div>
                 </div>
@@ -144,7 +144,7 @@ export default function ProjectDetailPage() {
                 <div className="mb-6">
                     <Link href="/dashboard">
                         <Button variant="outline" size="sm">
-                            ← Kembali ke Dashboard
+                            ← Back to Dashboard
                         </Button>
                     </Link>
                 </div>
@@ -181,7 +181,7 @@ export default function ProjectDetailPage() {
 
                             <div className="flex">
                                 <div className=' w-full'>
-                                    <h3 className=" font-semibold mb-2 text-muted-foreground">Ditugaskan kepada</h3>
+                                    <h3 className=" font-semibold mb-2 text-muted-foreground">Assigned to</h3>
                                     <div className="flex items-center space-x-3">
                                         <div className='flex justify-between  w-full '>
                                             <div className='flex gap-4'>

@@ -22,8 +22,8 @@ export default function TasksSection({ projectId, tasks, onTasksUpdate, userRole
             <CardHeader>
                 <div className="flex justify-between items-center">
                     <div>
-                        <CardTitle>Tugas ({taskCount})</CardTitle>
-                        <CardDescription>Daftar tugas dalam proyek ini</CardDescription>
+                        <CardTitle>Tasks ({taskCount})</CardTitle>
+                        <CardDescription>List of tasks in this project</CardDescription>
                     </div>
                     {userRole === 'ADMIN' && (
                         <InputTask onTaskAdded={onTasksUpdate} projectId={projectId} />
@@ -54,7 +54,7 @@ export default function TasksSection({ projectId, tasks, onTasksUpdate, userRole
 
                                             {task.dueDate && (
                                                 <div className="text-xs text-muted-foreground whitespace-nowrap">
-                                                    Due: {new Date(task.dueDate).toLocaleDateString('id-ID')}
+                                                    Due: {new Date(task.dueDate).toLocaleDateString('en-US')}
                                                 </div>
                                             )}
                                         </div>
@@ -64,9 +64,7 @@ export default function TasksSection({ projectId, tasks, onTasksUpdate, userRole
                         ))
                     ) : (
                         <div className="text-center py-8">
-                            <p className="text-muted-foreground mb-4">
-                                Belum ada tugas untuk proyek ini
-                            </p>
+                            <p className="text-muted-foreground mb-4">No tasks for this project yet</p>
                         </div>
                     )}
                 </div>

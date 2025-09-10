@@ -22,8 +22,8 @@ export default function InputTask({ onTaskAdded, projectId }: InputTaskProps) {
     async function handleSubmit() {
         if (!value.trim()) {
             Swal.fire({
-                title: "Peringatan",
-                text: "Task tidak boleh kosong!",
+                title: "Warning",
+                text: "Task cannot be empty!",
                 icon: "warning",
                 confirmButtonText: "OK",
             });
@@ -31,14 +31,14 @@ export default function InputTask({ onTaskAdded, projectId }: InputTaskProps) {
         }
 
         const result = await Swal.fire({
-            title: "Konfirmasi",
-            text: `Apakah Anda yakin ingin menambahkan task?`,
+            title: "Confirmation",
+            text: `Are you sure you want to add this task?`,
             icon: "question",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
-            confirmButtonText: "Ya, tambahkan",
-            cancelButtonText: "Batal",
+            confirmButtonText: "Yes, add it",
+            cancelButtonText: "Cancel",
         });
 
         if (!result.isConfirmed) return;
@@ -50,8 +50,8 @@ export default function InputTask({ onTaskAdded, projectId }: InputTaskProps) {
             });
 
             Swal.fire({
-                title: "Berhasil!",
-                text: "Task berhasil ditambahkan.",
+                title: "Success!",
+                text: "Task added successfully.",
                 icon: "success",
                 timer: 1500,
                 showConfirmButton: false,
@@ -65,8 +65,8 @@ export default function InputTask({ onTaskAdded, projectId }: InputTaskProps) {
         } catch (error) {
             console.error("Gagal mengirim task:", error);
             Swal.fire({
-                title: "Gagal",
-                text: "Terjadi kesalahan saat menambahkan task.",
+                title: "Failed",
+                text: "An error occurred while adding the task.",
                 icon: "error",
             });
         }
@@ -88,7 +88,7 @@ export default function InputTask({ onTaskAdded, projectId }: InputTaskProps) {
                     onClick={() => setOpen(true)}
                     className="flex items-center gap-1 px-3 py-2 rounded bg-black text-white"
                 >
-                    <Plus size={16} /> Tambah Task
+                    <Plus size={16} /> Add Task
                 </button>
             ) : (
                 <>
@@ -97,7 +97,7 @@ export default function InputTask({ onTaskAdded, projectId }: InputTaskProps) {
                         value={value}
                         onChange={(e) => setValue(e.target.value)}
                         onKeyDown={handleKeyDown}
-                        placeholder="Tulis sesuatu..."
+                        placeholder="Write something..."
                         className="px-3 py-2 rounded border border-gray-300"
                     />
                     <button
