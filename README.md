@@ -1,15 +1,14 @@
-# Curriculum Manager App
-
-A fullstack web application for managing curriculum.
+# Project Manager App
+Project Manager is a simple task management app that organizes projects into cards with statuses like Open, On Progress, or Closed. Each project contains tasks that can also be updated, making it easy to track progress clearly and efficiently.
 
 ## Project Structure
 ```
-curriculum-app/
+project-manager/
 ├── api/                  # Backend API
 │   ├── src/             # Source files
 │   ├── package.json      # API dependencies
 │   └── ...
-└── curriculum-app/      # Frontend Application
+└── project-manager/      # Frontend Application
     ├── src/             # Source files
     ├── package.json      # Frontend dependencies
     └── ...
@@ -75,7 +74,7 @@ curriculum-app/
 ### Web Setup
 1. Navigate to the web directory:
    ```bash
-   cd curriculum-app
+   cd project-manager
    ```
 2. Install dependencies:
    ```bash
