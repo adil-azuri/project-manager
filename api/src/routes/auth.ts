@@ -93,12 +93,12 @@ router.post('/login', async (req: Request, res: Response) => {
         });
 
         if (!user) {
-            return res.status(401).json({ error: 'User not found' });
+            return res.status(401).json({ error: 'User or password invalid' });
         }
 
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) {
-            return res.status(401).json({ error: 'Invalid password' });
+            return res.status(401).json({ error: 'User or password invalid' });
         }
 
         const token = signToken({
@@ -141,6 +141,27 @@ router.post('/logout', async (req: Request, res: Response) => {
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Logout failed' });
+    }
+});
+
+router.get('/users', async (req: Request, res: Response) => {
+    try {
+        const users = await prisma.users.findMany({
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                role: true
+            }
+        });
+
+        res.json({
+            message: 'Users retrieved successfully',
+            data: users
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Failed to retrieve users' });
     }
 });
 

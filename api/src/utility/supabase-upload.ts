@@ -9,7 +9,7 @@ export interface UploadResult {
 export class SupabaseUploadService {
   private bucketName: string;
 
-  constructor(bucketName: string = 'curriculum-image') {
+  constructor(bucketName: string = 'projects') {
     this.bucketName = bucketName;
   }
 
