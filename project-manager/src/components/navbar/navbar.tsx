@@ -5,7 +5,6 @@ import { api } from "@/lib/axios";
 
 export function Navbar() {
     const [userRole, setUserRole] = useState<string>('');
-    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchUserRole = async () => {
@@ -17,7 +16,6 @@ export function Navbar() {
             } catch (error) {
                 console.error('Error fetching user role:', error);
             } finally {
-                setLoading(false);
             }
         };
 

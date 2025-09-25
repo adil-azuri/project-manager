@@ -24,20 +24,19 @@ model users {
   email            String     @unique
   name             String
   password         String
-  role             Role       @default(USER)
+  role             Role       @default(ADMIN)
   assignedProjects projects[] @relation("AssignedProjects")
 }
 
 model projects {
-  id          Int        @id @default(autoincrement())
+  id          Int     @id @default(autoincrement())
   title       String
   description String?
-  status      String     @default("Open")
+  status      String  @default("Open")
   imageUrl    String?
   assignToId  Int?
-  assignTo    users?     @relation("AssignedProjects", fields: [assignToId], references: [id], onDelete: SetNull)
+  assignTo    users?  @relation("AssignedProjects", fields: [assignToId], references: [id], onDelete: SetNull)
   tasks       tasks[]
-  categories  category[] @relation("ProjectCategories")
 }
 
 model tasks {
@@ -46,16 +45,4 @@ model tasks {
   status    String   @default("Open")
   projectId Int
   project   projects @relation(fields: [projectId], references: [id], onDelete: Cascade)
-}
-
-enum CategoryType {
-  BAHASA
-  MIPA
-  IPS
-}
-
-model category {
-  id       Int          @id @default(autoincrement())
-  name     CategoryType @unique
-  projects projects[]   @relation("ProjectCategories")
 }

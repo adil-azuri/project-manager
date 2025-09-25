@@ -38,17 +38,27 @@ export function LoginForm() {
         window.location.href = "/dashboard"
       }, 2000)
 
-    } catch (error: any) {
-      console.error("Login error:", error)
+    } catch (error: unknown) {
+      const err = error as {
+        response?: {
+          data?: {
+            error?: string;
+            message?: string;
+          };
+        };
+        request?: unknown;
+        message?: string;
+      };
+      console.error("Login error:", err)
 
       let errorMessage = "Login failed. Please try again."
 
-      if (error.response) {
-        errorMessage = error.response.data?.error || error.response.data?.message || errorMessage
-      } else if (error.request) {
+      if (err.response) {
+        errorMessage = err.response.data?.error || err.response.data?.message || errorMessage
+      } else if (err.request) {
         errorMessage = "Network error: Unable to connect to server."
       } else {
-        errorMessage = error.message || errorMessage
+        errorMessage = err.message || errorMessage
       }
 
       toast.error(errorMessage)
@@ -123,7 +133,7 @@ export function LoginForm() {
               </Button>
             </div>
             <div className="mt-4 text-center text-sm text-gray-400">
-              Don't have an account?{" "}
+              Don&apos;t have an account?{" "}
               <a href="/register" className="underline underline-offset-4">
                 Register
               </a>

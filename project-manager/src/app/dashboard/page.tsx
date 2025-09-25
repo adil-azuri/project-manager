@@ -1,37 +1,9 @@
-'use client';
-import React, { useState, useEffect } from 'react';
-import { api } from '@/lib/axios';
+import React from 'react';
 import { Navbar } from '@/components/navbar/navbar';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-
-interface Project {
-  id: number;
-  title: string;
-  description: string;
-  status: string;
-  imageUrl: string;
-  assignToId: number;
-  assignTo: {
-    id: number;
-    email: string;
-    name: string;
-    role: string;
-  };
-  tasks: any[];
-  categories: any[];
-}
-
-interface ApiResponse {
-  code: number;
-  status: string;
-  message: string;
-  data: {
-    projects: Project[];
-    name: string
-    role: string;
-  };
-}
+import { fetchProjects } from '@/api/api';
+import { Project } from '@/types/project';
 
 const DashboardSection = ({ title, children }: { title: string; children: React.ReactNode }) => {
   return (
@@ -42,56 +14,20 @@ const DashboardSection = ({ title, children }: { title: string; children: React.
   );
 };
 
-const Dashboard = () => {
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [userName, setUserName] = useState<string>('');
+export const dynamic = "force-dynamic";
 
-  const fetchProjects = async () => {
-    try {
-      setLoading(true);
-      const response = await api.get<ApiResponse>('/api/get-all-project');
+const Dashboard = async () => {
+  let projects: Project[] = [];
+  let userName = '';
+  let error: string | null = null;
 
-      if (response.data.code === 200) {
-        setProjects(response.data.data.projects);
-        const storedUserData = localStorage.getItem('userData');
-        if (storedUserData) {
-          const userData = JSON.parse(storedUserData);
-          setUserName(userData.name);
-        } else {
-          setUserName(response.data.data.name);
-        }
-      }
-    } catch (err: any) {
-      console.error('Error fetching projects:', err);
-      setError(err.response?.data?.message || 'Failed to fetch projects');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    const storedUserData = localStorage.getItem('userData');
-    if (storedUserData) {
-      const userData = JSON.parse(storedUserData);
-      setUserName(userData.name);
-    }
-    fetchProjects();
-  }, []);
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-background">
-        <Navbar />
-        <div className="max-w-screen-xl mx-auto px-4 py-8">
-          <div className="flex justify-center items-center h-64">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-            <span className="ml-3 text-muted-foreground">Loading projects...</span>
-          </div>
-        </div>
-      </div>
-    );
+  try {
+    const result = await fetchProjects();
+    projects = result.projects;
+    userName = result.userName;
+  } catch (err: unknown) {
+    console.error('Error fetching projects:', err);
+    error = err instanceof Error ? err.message : 'Failed to fetch projects';
   }
 
   if (error) {
@@ -101,12 +37,6 @@ const Dashboard = () => {
         <div className="max-w-screen-xl mx-auto px-4 py-8">
           <div className="bg-destructive/10 border border-destructive text-destructive px-4 py-3 rounded">
             <strong>Error:</strong> {error}
-            <button
-              onClick={fetchProjects}
-              className="ml-4 bg-destructive text-destructive-foreground px-3 py-1 rounded hover:bg-destructive/90"
-            >
-              Retry
-            </button>
           </div>
         </div>
       </div>
@@ -120,11 +50,10 @@ const Dashboard = () => {
       <div className="max-w-screen-xl mx-auto px-4 py-8">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-foreground">Hello, {userName}! 👋</h1>
-          <p className="text-muted-foreground mt-2">Welcome back to your dashboard. Here's a summary of your projects.</p>
         </div>
 
         <div className="grid grid-cols-1 gap-6">
-          <DashboardSection title={`Your Projects (${projects.length})`} >
+          <DashboardSection title={`Your Projects (${projects.length})`}>
             {projects.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {projects.map(project => (
@@ -148,7 +77,7 @@ const Dashboard = () => {
                         <div className="mb-3">
                           <span className={`inline-block px-2 py-1 text-xs rounded-full
                           ${project.status === 'Open' ? 'bg-green-100 text-green-800 dark:bg-green-700 dark:text-green-100'
-                              : project.status === 'In Progress' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100'
+                              : project.status === 'In Progress' ? 'bg-blue-100 text-blue-800 dark:bg-blue-700 dark:text-blue-100'
                                 : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-100'
                             }`}>
                             {project.status}
@@ -158,7 +87,6 @@ const Dashboard = () => {
                         <p className="text-sm text-muted-foreground mb-4">
                           Assigned to: {project.assignTo.name}
                         </p>
-
 
                         <Link href={`/projects/${project.id}`}>
                           <Button variant="default" size="sm" className="w-full">
@@ -171,13 +99,13 @@ const Dashboard = () => {
                 ))}
               </div>
             ) : (
-              <p className="text-muted-foreground">You don't have any projects yet.</p>
+              <p className="text-muted-foreground">You don&apos;t have any projects yet.</p>
             )}
           </DashboardSection>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Dashboard
+export default Dashboard;

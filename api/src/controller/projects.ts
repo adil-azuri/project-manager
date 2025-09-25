@@ -45,12 +45,6 @@ export async function get_all_project(req: Request, res: Response) {
                         status: true
                     }
                 },
-                categories: {
-                    select: {
-                        id: true,
-                        name: true
-                    }
-                }
             }
         });
 
@@ -64,6 +58,7 @@ export async function get_all_project(req: Request, res: Response) {
             message,
             data: {
                 projects,
+                name: (req as any).user?.name,
                 role: userRole
             }
         });
@@ -180,12 +175,6 @@ export async function detail_project(req: Request, res: Response) {
                     }
                 },
                 tasks: true,
-                categories: {
-                    select: {
-                        id: true,
-                        name: true
-                    }
-                }
             }
         });
 

@@ -24,7 +24,7 @@ export interface Project {
     assignToId: number;
     assignTo: AssignTo;
     tasks: Task[];
-    categories: any[];
+    categories: unknown[];
 }
 
 export interface ApiResponse<T> {

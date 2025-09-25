@@ -119,23 +119,11 @@ export function ProjectForm() {
         setDescription("");
         setImageFile(null);
 
-      } catch (error: any) {
-        console.error("Add Project error:", error);
+      } catch {
+        console.error("Add Project error");
 
-        let errorMessage = "Add project failed. Please try again.";
-        if (error.response) {
-          if (error.response.data?.details) {
-            errorMessage = error.response.data.details;
-          } else {
-            errorMessage = error.response.data?.message || error.response.statusText;
-          }
-        } else if (error.request) {
-          errorMessage = "Network error: Unable to connect to server. Please check your connection.";
-        } else {
-          errorMessage = error.message || errorMessage;
-        }
+        const errorMessage = "Add project failed. Please try again.";
 
-        // Tampilkan SweetAlert error
         Swal.fire('Error!', errorMessage, 'error');
       } finally {
         setLoading(false);

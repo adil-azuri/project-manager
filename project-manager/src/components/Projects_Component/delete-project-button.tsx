@@ -37,13 +37,10 @@ export function DeleteProjectButton({ projectId, projectName, onDelete }: Delete
                     } else {
                         router.push('/dashboard');
                     }
-                } catch (error: any) {
-                    console.error('Delete project error:', error);
+                } catch {
+                    console.error('Delete project error');
 
-                    let errorMessage = 'Failed to delete project. Please try again.';
-                    if (error.response?.data?.message) {
-                        errorMessage = error.response.data.message;
-                    }
+                    const errorMessage = 'Failed to delete project. Please try again.';
 
                     Swal.fire(
                         'Error!',

@@ -21,4 +21,9 @@ app.use(cors({
 app.use("/api", auth_route, project_route);
 
 const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => console.log(`API running on http://localhost:${PORT}`));
+
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, () => console.log(`API running on http://localhost:${PORT}`));
+}
+
+export default app;

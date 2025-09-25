@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Plus, Check, X } from "lucide-react";
 import { api } from "@/lib/axios";
-import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 
 interface InputTaskProps {
@@ -10,7 +9,6 @@ interface InputTaskProps {
 }
 
 export default function InputTask({ onTaskAdded, projectId }: InputTaskProps) {
-    const router = useRouter();
     const [open, setOpen] = useState(false);
     const [value, setValue] = useState("");
     const inputRef = useRef<HTMLInputElement | null>(null);

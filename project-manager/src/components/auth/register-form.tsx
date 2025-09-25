@@ -8,6 +8,7 @@ import { api } from "@/lib/axios"
 import { useState } from "react"
 import { toast, ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
+import Link from "next/link"
 
 export function RegisterForm() {
   const [name, setName] = useState("")
@@ -20,7 +21,7 @@ export function RegisterForm() {
     setLoading(true)
 
     try {
-      const response = await api.post("/api/register", {
+       await api.post("/api/register", {
         email,
         name,
         password,
@@ -35,18 +36,27 @@ export function RegisterForm() {
       setTimeout(() => {
         window.location.href = "/"
       }, 2000)
-    } catch (error: any) {
-      console.error("Registration error:", error)
+    } catch (error: unknown) {
+      const err = error as {
+        response?: {
+          data?: {
+            error?: string;
+          };
+        };
+        request?: unknown;
+        message?: string;
+      };
+      console.error("Registration error:", err)
 
       let errorMessage = "Registration failed. Please try again."
 
-      if (error.response) {
-        errorMessage = error.response.data?.error
-      } else if (error.request) {
+      if (err.response) {
+        errorMessage = err.response.data?.error || errorMessage
+      } else if (err.request) {
         errorMessage =
           "Network error: Unable to connect to server. Please check if the server is running."
       } else {
-        errorMessage = error.message || errorMessage
+        errorMessage = err.message || errorMessage
       }
 
       toast.error(errorMessage)
@@ -129,9 +139,9 @@ export function RegisterForm() {
             </div>
             <div className="mt-4 text-center text-sm text-gray-400">
               already have an account?{" "}
-              <a href="/login" className="underline underline-offset-4">
+              <Link href="/" className="underline underline-offset-4">
                 Login
-              </a>
+              </Link>
             </div>
           </form>
         </CardContent>

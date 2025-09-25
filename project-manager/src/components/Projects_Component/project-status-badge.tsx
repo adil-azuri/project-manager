@@ -9,11 +9,11 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { ChevronDown, Loader2 } from "lucide-react";
+import { api } from "@/lib/axios";
 
 interface ProjectStatusBadgeProps {
     projectId: number;
     currentStatus: string;
-    onStatusChange?: (newStatus: string) => void;
     size?: "sm" | "md" | "lg";
     readonly?: boolean;
 }
@@ -42,7 +42,6 @@ const statusConfig = {
 export function ProjectStatusBadge({
     projectId,
     currentStatus,
-    onStatusChange,
     size = "md",
     readonly = false,
 }: ProjectStatusBadgeProps) {
@@ -51,15 +50,18 @@ export function ProjectStatusBadge({
     const handleStatusChange = async (newStatus: string) => {
         if (readonly) return;
 
-        if (onStatusChange && typeof onStatusChange === "function") {
-            setIsLoading(true);
-            try {
-                await onStatusChange(newStatus);
-            } catch (error) {
-                console.error("Failed to update project status:", error);
-            } finally {
-                setIsLoading(false);
-            }
+        setIsLoading(true);
+        try {
+            await api.patch(`/api/project/status/${projectId}`, {
+                status: newStatus,
+            });
+            // Optionally, trigger a page reload or state update if needed
+            window.location.reload(); // Simple way to refresh data
+        } catch (error) {
+            console.error("Failed to update project status:", error);
+            alert("Failed to update status. Please try again.");
+        } finally {
+            setIsLoading(false);
         }
     };
 

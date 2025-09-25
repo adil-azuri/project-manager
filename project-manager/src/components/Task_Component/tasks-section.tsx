@@ -2,20 +2,33 @@
 
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import InputTask from '@/components/add-task';
-import { TaskStatusBadge } from './task-status-badge';
+import InputTask from '@/components/Task_Component/add-task';
+import { TaskStatusBadge } from '@/components/Task_Component/task-status-badge';
 import { Task } from '@/types/project';
 
 interface TasksSectionProps {
     projectId: number;
     tasks: Task[];
-    onTasksUpdate: () => void;
+    onTasksUpdate?: () => void;
     userRole?: string;
 }
 
-export default function TasksSection({ projectId, tasks, onTasksUpdate, userRole }: TasksSectionProps) {
+const statusOrder = {
+    "Open": 1,
+    "In Progress": 2,
+    "Closed": 3,
+};
+
+export default function TasksSection({ projectId, tasks, onTasksUpdate = () => {}, userRole }: TasksSectionProps) {
     const taskCount = Array.isArray(tasks) ? tasks.length : 0;
+
+    const sortedTasks = Array.isArray(tasks)
+        ? [...tasks].sort((a, b) => {
+            const orderA = statusOrder[a.status as keyof typeof statusOrder] || 4;
+            const orderB = statusOrder[b.status as keyof typeof statusOrder] || 4;
+            return orderA - orderB;
+        })
+        : [];
 
     return (
         <Card>
@@ -33,8 +46,8 @@ export default function TasksSection({ projectId, tasks, onTasksUpdate, userRole
 
             <CardContent>
                 <div className="space-y-4">
-                    {Array.isArray(tasks) && tasks.length > 0 ? (
-                        tasks.map((task) => (
+                    {sortedTasks.length > 0 ? (
+                        sortedTasks.map((task) => (
                             <Card key={task.id} className="hover:shadow-md transition-shadow">
                                 <CardContent className="p-4">
                                     <div className="flex flex-col md:flex-row justify-between md:items-center">
