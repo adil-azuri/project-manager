@@ -2,7 +2,6 @@ import express, { Request, Response } from "express";
 import cors from "cors";
 import multer from "multer";
 import cookieParser from "cookie-parser";
-import serverless from "serverless-http";
 
 import auth_route from "./routes/auth";
 import project_route from "./routes/project-route";
@@ -31,4 +30,4 @@ if (process.env.NODE_ENV !== 'production') {
   app.listen(PORT, () => console.log(`API running on http://localhost:${PORT}`));
 }
 
-export default serverless(app);
+export default app;
