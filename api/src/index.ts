@@ -1,11 +1,16 @@
-require('dotenv').config();
 import express, { Request, Response } from "express";
 import cors from "cors";
 import multer from "multer";
 import cookieParser from "cookie-parser";
+import serverless from "serverless-http";
 
 import auth_route from "./routes/auth";
 import project_route from "./routes/project-route";
+
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
+
 const app = express();
 
 const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 5 * 1024 * 1024 } }); // 5MB
@@ -26,4 +31,4 @@ if (process.env.NODE_ENV !== 'production') {
   app.listen(PORT, () => console.log(`API running on http://localhost:${PORT}`));
 }
 
-export default app;
+export default serverless(app);
