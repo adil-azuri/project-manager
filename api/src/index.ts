@@ -22,6 +22,21 @@ app.use(cors({
     credentials: true
 }));
 
+// Default endpoint to check API status with HTML response
+app.get('/', (req, res) => {
+  res.setHeader('Content-Type', 'text/html');
+  res.send(`
+    <html>
+      <head>
+        <title>Project Manager API</title>
+      </head>
+      <body style="font-family: Arial, sans-serif; text-align: center; margin-top: 50px;">
+        <h1>Project Manager API is running</h1>
+        <p>Created By Adil Aulia Azuri</p>
+      </body>
+    </html>
+  `);
+});
 
 app.use("/api", auth_route, project_route);
 
