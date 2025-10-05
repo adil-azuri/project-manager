@@ -23,7 +23,7 @@ export default function Login() {
         </div>
         <Lottie animationData={TaskAnimation} loop={true} className="h-120" />
         <blockquote className="text-sm italic text-gray-400">
-          Developed by Adil •DumbWays Indonesia • #1 Coding Bootcamp
+          Developed with ❤️ by Adil Aulia Azuri | 2025
         </blockquote>
       </div>
 
