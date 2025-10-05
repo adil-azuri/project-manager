@@ -27,8 +27,8 @@ export function middleware(request: NextRequest) {
 
   if (adminOnlyRoute.includes(request.nextUrl.pathname)) {
     if (!token) {
-      const loginUrl = new URL('/', request.url);
-      return NextResponse.redirect(loginUrl);
+      const dashboard = new URL('/dashboard', request.url);
+      return NextResponse.redirect(dashboard);
     }
 
     const decoded = decodeJWT(token.value);
