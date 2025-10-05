@@ -111,8 +111,8 @@ router.post('/login', async (req: Request, res: Response) => {
         res.cookie('token', token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            sameSite: 'strict',
-            maxAge: 24 * 60 * 60 * 1000,
+            sameSite:  'none',
+            maxAge: 6 * 60 * 60 * 1000, // 6 hours
         });
 
         const { password: _, ...userData } = user;
@@ -133,7 +133,7 @@ router.post('/logout', async (req: Request, res: Response) => {
         res.clearCookie('token', {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            sameSite: 'strict',
+            sameSite: 'none'
         });
 
         res.json({

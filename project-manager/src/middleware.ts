@@ -21,13 +21,13 @@ export function middleware(request: NextRequest) {
   const adminOnlyRoute = ['/add-project'];
 
   if (protectRoute.includes(request.nextUrl.pathname) && !token) {
-    const loginUrl = new URL('/login', request.url);
+    const loginUrl = new URL('/', request.url);
     return NextResponse.redirect(loginUrl);
   }
 
   if (adminOnlyRoute.includes(request.nextUrl.pathname)) {
     if (!token) {
-      const loginUrl = new URL('/login', request.url);
+      const loginUrl = new URL('/', request.url);
       return NextResponse.redirect(loginUrl);
     }
 
